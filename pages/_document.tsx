@@ -1,5 +1,5 @@
 import React from "react";
-import { ServerStyleSheets } from "@material-ui/core";
+import { ServerStyleSheets } from "@mui/styles";
 import Document, {
   Head,
   Html,
@@ -32,7 +32,12 @@ export default class MyDocument extends Document {
   render() {
     return (
       <Html lang="ko">
-        <Head></Head>
+        <Head>
+          <link
+            rel="stylesheet"
+            href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+          />
+        </Head>
         <body>
           <Main />
           <NextScript />

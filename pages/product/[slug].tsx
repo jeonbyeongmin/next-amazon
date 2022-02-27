@@ -6,7 +6,7 @@ import {
   List,
   ListItem,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -44,7 +44,9 @@ export default function Detail() {
           <Grid item md={3} xs={12}>
             <List>
               <ListItem>
-                <Typography component="h1"> {product.name}</Typography>
+                <Typography component="h1" variant="h1">
+                  {product.name}
+                </Typography>
               </ListItem>
               <ListItem>
                 <Typography>Category : {product.category}</Typography>

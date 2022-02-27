@@ -1,6 +1,7 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { useEffect } from "react";
+import { DarkModeProvider } from "../utils/Store";
 
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
@@ -8,7 +9,11 @@ function MyApp({ Component, pageProps }: AppProps) {
     if (jssStyles) jssStyles.parentElement?.removeChild(jssStyles);
   }, []);
 
-  return <Component {...pageProps} />;
+  return (
+    <DarkModeProvider>
+      <Component {...pageProps} />
+    </DarkModeProvider>
+  );
 }
 
 export default MyApp;

@@ -7,9 +7,8 @@ import {
   CardMedia,
   Grid,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import type { NextPage } from "next";
-import Head from "next/head";
 import NextLink from "next/link";
 import Layout from "../components/Layout";
 import styles from "../styles/Home.module.css";
