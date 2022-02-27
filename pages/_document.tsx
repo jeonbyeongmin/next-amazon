@@ -10,8 +10,9 @@ import Document, {
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
-    const sheets = new ServerStyleSheets(); // 추가하지 않으면 서버에서 렌더링 현상이 발생합니다.
+    const sheets = new ServerStyleSheets(); // 추가하지 않으면 CSS-in-JS와 같은 스타일 패키지들이 적용되지 않습니다.
     const originalRenderPage = ctx.renderPage;
+
     ctx.renderPage = () => {
       return originalRenderPage({
         enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
