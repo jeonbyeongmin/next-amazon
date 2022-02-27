@@ -40,7 +40,7 @@ const data = {
       name: "Golf Pants",
       slug: "golf-pants",
       category: "Pants",
-      image: "/images/pants2.jpg",
+      image: "/images/pants1.jpg",
       price: 90,
       brand: "Oliver",
       rating: 4.5,

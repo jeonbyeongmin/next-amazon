@@ -12,15 +12,18 @@ import useStyles from "../utils/styles";
 
 interface LayoutProps {
   children: ReactChild;
+  title?: string;
+  description?: string;
 }
 
-const Layout = ({ children }: LayoutProps) => {
+const Layout = ({ children, title, description }: LayoutProps) => {
   const styled = useStyles();
 
   return (
     <div>
       <Head>
-        <title>NEXT AMAZON</title>
+        <title>{title ? `${title}` : "NEXT AMAZON"}</title>
+        <meta name="description" content={description} />
       </Head>
       <AppBar position="static" className={styled.navbar}>
         <Toolbar>

@@ -12,6 +12,7 @@ const useStyles = makeStyles({
     minHeight: "80vh",
   },
   footer: {
+    marginTop: 10,
     textAlign: "center",
   },
   grow: {
@@ -20,6 +21,10 @@ const useStyles = makeStyles({
   brand: {
     fontWeight: "bold",
     fontSize: "1.5rem",
+  },
+  section: {
+    marginTop: 10,
+    marginBottom: 10,
   },
 });
 
