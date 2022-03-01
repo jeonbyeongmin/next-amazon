@@ -8,17 +8,25 @@ import {
   Typography,
 } from "@mui/material";
 import NextLink from "next/link";
-import { useRouter } from "next/router";
 import Image from "next/image";
 import Layout from "../../components/Layout";
-import data from "../../utils/data";
 import useStyles from "../../utils/styles";
+import { GetServerSideProps, NextPage } from "next";
+import Product from "../../models/Product";
+import db from "../../utils/db";
+import { ProductType } from "../../types/product";
+import { useCallback } from "react";
 
-export default function Detail() {
-  const router = useRouter();
+interface DetailProps {
+  product: ProductType;
+}
+
+export const Detail: NextPage<DetailProps> = ({ product }) => {
   const styled = useStyles();
-  const { slug } = router.query;
-  const product = data.products.find((product) => product.slug === slug);
+
+  const handleDalgonaClick = useCallback((e) => {
+    console.log(e.currentTarget);
+  }, []);
 
   if (!product) return <div>Product Not Found</div>;
   return (
@@ -26,7 +34,7 @@ export default function Detail() {
       <>
         <div className={styled.section}>
           <NextLink href="/" passHref>
-            <Link>
+            <Link onClick={handleDalgonaClick}>
               <Typography>back to products</Typography>
             </Link>
           </NextLink>
@@ -101,4 +109,20 @@ export default function Detail() {
       </>
     </Layout>
   );
-}
+};
+
+export default Detail;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { params } = context;
+  const { slug } = params;
+
+  await db.connect();
+  const product = await Product.findOne({ slug }).lean();
+  await db.disconnect();
+  return {
+    props: {
+      product: db.convertDocToObj(product),
+    },
+  };
+};
