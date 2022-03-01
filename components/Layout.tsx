@@ -73,7 +73,7 @@ const Layout = ({ children, title, description }: LayoutProps) => {
         <meta name="description" content={description} />
       </Head>
       <ThemeProvider theme={theme}>
-        {/* <CssBaseline /> */}
+        <CssBaseline />
         <AppBar position="static" className={styled.navbar}>
           <Toolbar>
             <NextLink href="/" passHref>
