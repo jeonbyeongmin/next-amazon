@@ -1,7 +1,8 @@
-import "../styles/globals.css";
 import type { AppProps } from "next/app";
+import "../styles/globals.css";
 import { useEffect } from "react";
-import { DarkModeProvider } from "../utils/Store";
+import { DarkModeProvider } from "../utils/DarkModeStore";
+import { CartProvider } from "../utils/CartStore";
 
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
@@ -10,9 +11,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <DarkModeProvider>
-      <Component {...pageProps} />
-    </DarkModeProvider>
+    <CartProvider>
+      <DarkModeProvider>
+        <Component {...pageProps} />
+      </DarkModeProvider>
+    </CartProvider>
   );
 }
 

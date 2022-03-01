@@ -1,25 +1,21 @@
+import type { ActionType, DarkModeStateType } from "../types/storeType";
+import Cookies from "js-cookie";
 import React, { createContext, Dispatch, useContext, useReducer } from "react";
 
-type State = {
-  darkMode: boolean;
-};
-
-type Action =
-  | { type: "DARK_MODE_ON"; count: number }
-  | { type: "DARK_MODE_OFF"; text: string };
-
-const DarkModeState = createContext<State | null>(null);
-const DarkModeDispatch = createContext<Dispatch<Action> | null>(null);
+const DarkModeState = createContext<DarkModeStateType | null>(null);
+const DarkModeDispatch = createContext<Dispatch<ActionType> | null>(null);
 
 const initialState = {
-  darkMode: true,
+  darkMode: Cookies.get("darkMode") === "ON",
 };
 
-function reducer(state: State, action: Action) {
+function reducer(state: DarkModeStateType, action: ActionType) {
   switch (action.type) {
     case "DARK_MODE_ON":
+      Cookies.set("darkMode", "ON");
       return { ...state, darkMode: true };
     case "DARK_MODE_OFF":
+      Cookies.set("darkMode", "OFF");
       return { ...state, darkMode: false };
     default:
       return state;

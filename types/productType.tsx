@@ -1,4 +1,5 @@
 export interface ProductType {
+  _id: string;
   name: string;
   slug: string;
   category: string;
@@ -6,7 +7,15 @@ export interface ProductType {
   price: number;
   brand: string;
   rating: number;
-  numberReviews: number;
+  numReviews: number;
   countInStock: number;
   description: string;
+}
+
+export interface ProductPayloadType extends ProductType {
+  quantity: number;
+}
+
+export interface CartType {
+  cartItems: ProductType[];
 }

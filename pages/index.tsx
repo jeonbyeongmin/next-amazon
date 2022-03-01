@@ -1,3 +1,4 @@
+import type { ProductType } from "../types/productType";
 import {
   Button,
   Card,
@@ -14,7 +15,6 @@ import Layout from "../components/Layout";
 import styles from "../styles/Home.module.css";
 import db from "../utils/db";
 import Product from "../models/Product";
-import { ProductType } from "../types/product";
 
 interface HomeProps {
   products: ProductType[];

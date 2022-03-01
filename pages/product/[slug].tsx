@@ -1,3 +1,4 @@
+import type { ProductType } from "../../types/productType";
 import {
   Button,
   Card,
@@ -14,27 +15,37 @@ import useStyles from "../../utils/styles";
 import { GetServerSideProps, NextPage } from "next";
 import Product from "../../models/Product";
 import db from "../../utils/db";
-import { ProductType } from "../../types/product";
-import { useCallback } from "react";
+import axios from "axios";
+import { useCartDispatch } from "../../utils/CartStore";
 
 interface DetailProps {
   product: ProductType;
 }
 
 export const Detail: NextPage<DetailProps> = ({ product }) => {
+  const addToCartDispatch = useCartDispatch();
   const styled = useStyles();
 
-  const handleDalgonaClick = useCallback((e) => {
-    console.log(e.currentTarget);
-  }, []);
+  const addToCartHandler = async () => {
+    const { data } = await axios.get(`/api/products/${product._id}`);
+    if (data.countInStock <= 0) {
+      window.alert("sorry. product is out of stock");
+      return;
+    }
+    addToCartDispatch({
+      type: "CART_ADD_ITEM",
+      payload: { ...product, quantity: 1 },
+    });
+  };
 
   if (!product) return <div>Product Not Found</div>;
+
   return (
     <Layout title={product.name} description={product.description}>
       <>
         <div className={styled.section}>
           <NextLink href="/" passHref>
-            <Link onClick={handleDalgonaClick}>
+            <Link>
               <Typography>back to products</Typography>
             </Link>
           </NextLink>
@@ -98,7 +109,12 @@ export const Detail: NextPage<DetailProps> = ({ product }) => {
                   </Grid>
                 </ListItem>
                 <ListItem>
-                  <Button fullWidth variant="contained" color="primary">
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    onClick={addToCartHandler}
+                  >
                     Add to cart
                   </Button>
                 </ListItem>
@@ -115,10 +131,9 @@ export default Detail;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { params } = context;
-  const { slug } = params;
 
   await db.connect();
-  const product = await Product.findOne({ slug }).lean();
+  const product = await Product.findOne({ slug: params?.slug }).lean();
   await db.disconnect();
   return {
     props: {

@@ -1,3 +1,4 @@
+import type { ReactChild } from "react";
 import {
   AppBar,
   Container,
@@ -8,12 +9,15 @@ import {
   ThemeProvider,
   Toolbar,
   Typography,
+  Badge,
 } from "@mui/material";
 import Head from "next/head";
 import NextLink from "next/link";
-import { ReactChild, useMemo } from "react";
+import { useMemo } from "react";
 import useStyles from "../utils/styles";
-import { useDarkModeDispatch, useDarkModeState } from "../utils/Store";
+import { useDarkModeDispatch, useDarkModeState } from "../utils/DarkModeStore";
+import Cookies from "js-cookie";
+import { useCartState } from "../utils/CartStore";
 
 interface LayoutProps {
   children: ReactChild;
@@ -24,7 +28,8 @@ interface LayoutProps {
 const Layout = ({ children, title, description }: LayoutProps) => {
   const styled = useStyles();
   const { darkMode } = useDarkModeState();
-  const dispatch = useDarkModeDispatch();
+  const darkModeDispatch = useDarkModeDispatch();
+  const { cart } = useCartState();
 
   const theme = useMemo(
     () =>
@@ -58,7 +63,7 @@ const Layout = ({ children, title, description }: LayoutProps) => {
   );
 
   const darkModeChangeHandler = () => {
-    dispatch({ type: darkMode ? "DARK_MODE_OFF" : "DARK_MODE_ON" });
+    darkModeDispatch({ type: darkMode ? "DARK_MODE_OFF" : "DARK_MODE_ON" });
   };
 
   return (
@@ -68,7 +73,7 @@ const Layout = ({ children, title, description }: LayoutProps) => {
         <meta name="description" content={description} />
       </Head>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
+        {/* <CssBaseline /> */}
         <AppBar position="static" className={styled.navbar}>
           <Toolbar>
             <NextLink href="/" passHref>
@@ -83,7 +88,18 @@ const Layout = ({ children, title, description }: LayoutProps) => {
                 onChange={darkModeChangeHandler}
               ></Switch>
               <NextLink href="/cart" passHref>
-                <Link>Cart</Link>
+                <Link>
+                  {cart.cartItems.length > 0 ? (
+                    <Badge
+                      color="secondary"
+                      badgeContent={cart.cartItems.length}
+                    >
+                      Cart
+                    </Badge>
+                  ) : (
+                    "Cart"
+                  )}
+                </Link>
               </NextLink>
               <NextLink href="/login" passHref>
                 <Link>login</Link>
